@@ -195,24 +195,24 @@ class StaticMethods:
         os.remove(zip_path)
 
         if 'Sneezedip' in download_url:
-            with os.scandir('Tiktok-Booster-main') as entries:
+            with os.scandir('Tiktok-Reporter-main') as entries:
                 for entry in entries:
                     if entry.is_dir():
                         with os.scandir(entry) as entries_folder:
                             for entry_folder in entries_folder:
                                 try:
-                                    os.replace(f"Tiktok-Booster-main/{entry.name}/{entry_folder.name}",
+                                    os.replace(f"Tiktok-Reporter-main/{entry.name}/{entry_folder.name}",
                                             f"./{entry.name}/{entry_folder.name}")
                                 except Exception as e:
                                     print(e)
                                 continue
                     if entry.is_file():
                         try:
-                            os.replace(f"Tiktok-Booster-main/{entry.name}", f"./{entry.name}")
+                            os.replace(f"Tiktok-Reporter-main/{entry.name}", f"./{entry.name}")
                         except Exception as e:
                             print(e)
                         continue
-            shutil.rmtree("Tiktok-Booster-main")
+            shutil.rmtree("Tiktok-Reporter-main")
         print(f'{StaticValues.SUCCESS}{Fore.WHITE}{"New Version" if "Sneezedip" in download_url else "Tesseract"}'
             f' Downloaded and Extracted Successfully!{Style.RESET_ALL}')
         print(f'{StaticValues.WARNING}{Fore.WHITE}Please Restart the program!{Style.RESET_ALL}')
