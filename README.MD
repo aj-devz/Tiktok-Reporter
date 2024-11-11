@@ -29,8 +29,8 @@ To run the program, follow these steps:
    - Open `run.bat`
    - Or Open TiktokReporter in visual studio and run main.py
 
-# Version 0.0.1
-   - First Commit
+# Version 0.0.1.1
+   - Hotfix on requirements
       
       
 ### for more info check [*changelog.md*](https://github.com/Sneezedip/Tiktok-Reporter/blob/main/changelog.MD)
