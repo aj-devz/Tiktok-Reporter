@@ -1,0 +1,10 @@
+tls_client
+requests
+config_parser
+colorama
+typing_extensions
+beautifulsoup4
+datetime
+fake_useragent
+httpx
+asyncio
