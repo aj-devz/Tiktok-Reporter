@@ -1,5 +1,5 @@
 <p align="center"><a href="https://github.com/Sneezedip/Tiktok-Reporter"><img src="https://static.vecteezy.com/system/resources/previews/024/273/794/non_2x/tiktok-logo-transparent-free-png.png" alt="TTKRP" height="150"/></a></p>
-<h1 align="center">Tiktok-Reporter</h1>s
+<h1 align="center">Tiktok-Reporter</h1>
 
 <div align="center">
 
