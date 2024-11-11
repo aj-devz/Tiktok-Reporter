@@ -67,7 +67,7 @@ class Program:
     
 if __name__ == "__main__":
     threads = []
-    StaticMethods.check_version(open("VERSION","r").read())
+    StaticMethods.check_version("0.0.2")
     os.system("cls") if os.name == 'nt' else os.system("clear")
     StaticMethods.vk()
     os.system("cls") if os.name == 'nt' else os.system("clear")
