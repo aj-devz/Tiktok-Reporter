@@ -1,8 +1,9 @@
 import os
 try:
-    from colorama import Fore,Style
+    from colorama import Fore, Style
 except:
     os.system("pip install -r requirements.txt")
+
 class StaticValues:
     WAITING = f"{Style.RESET_ALL}{Fore.YELLOW}[WAITING] {Style.BRIGHT}{Fore.WHITE}"
     SUCCESS = f"{Style.RESET_ALL}{Fore.GREEN}[SUCCESS] {Style.BRIGHT}{Fore.WHITE}"
@@ -33,3 +34,5 @@ class StaticValues:
     TOTAL_REQUESTS = 0
 
     COOLDOWN = False
+
+# Continue with the rest of your code...
