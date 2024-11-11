@@ -226,6 +226,7 @@ class StaticMethods:
                         f"NEW VERSION FOUND. Want to update? (y/n){Style.RESET_ALL}").lower()
                 if u == "y":
                     StaticMethods.download("https://codeload.github.com/Sneezedip/Tiktok-Reporter/zip/refs/heads/main", "./")
+                    sys.exit(1)
                 elif u == "n":
                     return
     
