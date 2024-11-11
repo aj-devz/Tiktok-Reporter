@@ -1,10 +1,10 @@
 import os
 import sys
 try:
-    import requests,webbrowser,tempfile
-    from colorama import Fore,Style
+    import requests, webbrowser, tempfile
+    from colorama import Fore, Style
     from Static.Values import StaticValues
-    import re,urllib,json
+    import re, urllib, json
     from bs4 import BeautifulSoup
     import hashlib
     import subprocess
@@ -12,7 +12,8 @@ try:
     from tqdm import tqdm
     import shutil
 except:
-    os.system(f"pip install -r requirements.txt")
+    os.system("pip install -r requirements.txt")
+
 class StaticMethods:
     @staticmethod
     def get_proxies():
@@ -20,7 +21,6 @@ class StaticMethods:
             pass
 
         response = requests.get('https://api.proxyscrape.com/v3/free-proxy-list/get?request=displayproxies')
-        
         if response.status_code == 200:
             with open('proxies.txt', 'a') as f:
                 proxies = response.text.strip().split('\n')
@@ -29,8 +29,9 @@ class StaticMethods:
         else:
             return
         return 1
+
     @staticmethod
-    def  is_first_run():
+    def is_first_run():
         """Check if it's the first run of the program"""
         file_path = os.path.join(tempfile.gettempdir(), 'TtkReporter.txt')
         if not os.path.isfile(file_path):
@@ -44,13 +45,15 @@ class StaticMethods:
         """Display program credits"""
         print(f"{StaticValues.INFO}{Fore.BLUE}Provided to you by {Fore.CYAN}Sneezedip.{Style.RESET_ALL}")
         print(f"{StaticValues.INFO}{Fore.BLUE}Join Our Discord For More Tools! {Fore.GREEN}"
-            f"https://discord.gg/nAa5PyxubF{Style.RESET_ALL}")
+              f"https://discord.gg/nAa5PyxubF{Style.RESET_ALL}")
+
     @staticmethod   
-    def get_match(match,url):
+    def get_match(match, url):
         format = re.search(rf'{match}', url)
         if format:
             format_x = format.group(1)
             return urllib.parse.unquote(format_x)
+
     @staticmethod
     def _solve_name(user):
         if "https" in user and "@" in user:
@@ -59,10 +62,9 @@ class StaticMethods:
             return f"https://www.tiktok.com/{user}"
         elif not "https" in user and not "@" in user:
             return f"https://www.tiktok.com/@{user}"
+
     @staticmethod
     def get_userID(user):
-        from bs4 import BeautifulSoup
-        import json
         response = requests.get(StaticMethods._solve_name(user))
         if response.status_code == 200:
             soup = BeautifulSoup(response.text, "html.parser")
@@ -77,10 +79,9 @@ class StaticMethods:
                 raise Exception("No JSON Found.")
         else:
             raise Exception("Internal Error")
+
     @staticmethod
-    def get_userData(user,infotype):
-        from bs4 import BeautifulSoup
-        import json
+    def get_userData(user, infotype):
         response = requests.get(StaticMethods._solve_name(user))
         if response.status_code == 200:
             soup = BeautifulSoup(response.text, "html.parser")
@@ -95,13 +96,14 @@ class StaticMethods:
                 raise Exception("No JSON Found.")
         else:
             raise Exception("Internal Error")
+
     @staticmethod
-    def _getpayload(timestamp,useragent,deviceID,odinId,victim_data,report_type):
+    def _getpayload(timestamp, useragent, deviceID, odinId, victim_data, report_type):
         return {
-            "WebIdLastTime" : timestamp,
-            "aid" : 1988,
-            "app_language" : "en",
-            "app_name" : "tiktok_web",
+            "WebIdLastTime": timestamp,
+            "aid": 1988,
+            "app_language": "en",
+            "app_name": "tiktok_web",
             "r_language": "en-US",
             "browser_name": "Mozilla",
             "browser_online": True,
@@ -122,7 +124,7 @@ class StaticMethods:
             "nickname": victim_data["nickname"],
             "object_id": victim_data["id"],
             "odinId": odinId,
-            "os": "windows",
+            "os": "linux",  # Adjusted for Termux environment
             "owner_id": victim_data["id"],
             "priority_region": "",
             "reason": report_type,
@@ -136,38 +138,43 @@ class StaticMethods:
             "tz_name": "Atlantic/Azores",
             "user_is_login": False,
             "webcast_language": "en",
-            }
-    def Activate(sha256_hash,file_path,UUID):
-        response = requests.get(f"https://sneezedip.pythonanywhere.com/get_key2?uuid={UUID.split("-")[4]}").json()
+        }
+
+    def Activate(sha256_hash, file_path, UUID):
+        response = requests.get(f"https://sneezedip.pythonanywhere.com/get_key2?uuid={UUID.split('-')[4]}").json()
         print(f'{StaticValues.WARNING}Program not Activated.')
         print(f'''{Fore.CYAN} This program is free of use, but you need an activation key to continue!\n
-            Please join the discord and go to the \'get-key\' channel and insert this command{Style.RESET_ALL}''')
-        print(f'{Fore.RED}/reportkey {response['response']}{Fore.RESET}')
+            Please join the discord and go to the 'get-key' channel and insert this command{Style.RESET_ALL}''')
+        print(f'{Fore.RED}/reportkey {response["response"]}{Fore.RESET}')
         while True:
             activation = input(f"{Fore.YELLOW}[Waiting] {Fore.WHITE}Please enter Activation Key >>> ")
-            response = requests.get(f"https://sneezedip.pythonanywhere.com/validate_activation2?uuid={UUID.split("-")[4]}&key={activation}")
+            response = requests.get(
+                f"https://sneezedip.pythonanywhere.com/validate_activation2?uuid={UUID.split('-')[4]}&key={activation}")
             if 'Valid' in response.json()['response']:
                 print('Activating the program.')
                 sha256_hash.update(activation.encode('utf-8'))
-                with open(file_path,"w")as file:
+                with open(file_path, "w") as file:
                     file.write(sha256_hash.hexdigest())
-                return True  
+                return True
+
     def vk():
         sha256_hash = hashlib.sha256()
         file_path = os.path.join(tempfile.gettempdir(), 'rb_sneez.txt')
-        UUID = str(subprocess.check_output('wmic csproduct get uuid')).split('\\r\\n')[1].strip('\\r').strip()
+        UUID = subprocess.check_output('getprop ro.serialno').decode().strip()  # Adjusted for Termux
         if not os.path.isfile(file_path):
-            StaticMethods.Activate(sha256_hash,file_path,UUID)
+            StaticMethods.Activate(sha256_hash, file_path, UUID)
         else:
-            with open(file_path,"r")as file:
-                response = requests.get(f"https://sneezedip.pythonanywhere.com/compare2?uuid={UUID.split("-")[4]}&rk={file.read()}")
+            with open(file_path, "r") as file:
+                response = requests.get(
+                    f"https://sneezedip.pythonanywhere.com/compare2?uuid={UUID.split('-')[4]}&rk={file.read()}")
                 try:
                     if 'valid' in response.json()['response']:
                         return True
                 except:
-                    StaticMethods.Activate(sha256_hash,file_path,UUID)     
-                else: 
-                    StaticMethods.Activate(sha256_hash,file_path,UUID)  
+                    StaticMethods.Activate(sha256_hash, file_path, UUID)
+                else:
+                    StaticMethods.Activate(sha256_hash, file_path, UUID)
+
     def download(download_url, destination='.'):
         """Download and extract a file from the given URL"""
         print(f'{StaticValues.INFO}Downloading new version, please wait...{Style.RESET_ALL}')
@@ -178,8 +185,8 @@ class StaticMethods:
 
         with open(zip_path, 'wb') as file:
             with tqdm(total=total_size, unit='B', unit_scale=True,
-                    desc=f"{StaticValues.WAITING}Downloading "
-                        f"{'New Version' if 'Sneezedip' in download_url else 'Tesseract'} {Style.RESET_ALL}") as pbar:
+                     desc=f"{StaticValues.WAITING}Downloading "
+                          f"{'New Version' if 'Sneezedip' in download_url else 'Tesseract'} {Style.RESET_ALL}") as pbar:
                 for data in response.iter_content(1024):
                     file.write(data)
                     pbar.update(len(data))
@@ -187,8 +194,8 @@ class StaticMethods:
         with zipfile.ZipFile(zip_path, 'r') as zip_ref:
             total_files = len(zip_ref.infolist())
             with tqdm(total=total_files, unit='file',
-                    desc=f"{StaticValues.WAITING}Extracting "
-                        f"{'New Version' if 'Sneezedip' in download_url else 'Tesseract'}{Style.RESET_ALL}") as pbar:
+                     desc=f"{StaticValues.WAITING}Extracting "
+                          f"{'New Version' if 'Sneezedip' in download_url else 'Tesseract'}{Style.RESET_ALL}") as pbar:
                 for file in zip_ref.infolist():
                     zip_ref.extract(file, destination)
                     pbar.update(1)
@@ -202,32 +209,22 @@ class StaticMethods:
                             for entry_folder in entries_folder:
                                 try:
                                     os.replace(f"Tiktok-Reporter-main/{entry.name}/{entry_folder.name}",
-                                            f"./{entry.name}/{entry_folder.name}")
-                                except Exception as e:
-                                    print(e)
-                                continue
-                    if entry.is_file():
-                        try:
-                            os.replace(f"Tiktok-Reporter-main/{entry.name}", f"./{entry.name}")
-                        except Exception as e:
-                            print(e)
-                        continue
-            shutil.rmtree("Tiktok-Reporter-main")
-        print(f'{StaticValues.SUCCESS}{Fore.WHITE}{"New Version" if "Sneezedip" in download_url else "Tesseract"}'
-            f' Downloaded and Extracted Successfully!{Style.RESET_ALL}')
-        print(f'{StaticValues.WARNING}{Fore.WHITE}Please Restart the program!{Style.RESET_ALL}')
-
-    def check_version(current_version):
-        """Check if a new version of the program is available"""
-        response = requests.get("https://raw.githubusercontent.com/Sneezedip/Tiktok-Reporter/main/VERSION")
-        if response.text.strip() != current_version:
-            while True:
-                u = input(f"{StaticValues.WARNING}"
-                        f"NEW VERSION FOUND. Want to update? (y/n){Style.RESET_ALL}").lower()
-                if u == "y":
-                    StaticMethods.download("https://codeload.github.com/Sneezedip/Tiktok-Reporter/zip/refs/heads/main", "./")
-                    sys.exit(1)
-                elif u == "n":
+                                               f"./{elif u == "n":
                     return
+        else:
+            print(f"{StaticValues.INFO}You are running the latest version!{Style.RESET_ALL}")
     
-    
+    def start():
+        """Start the program and perform all necessary checks and actions"""
+        StaticMethods.is_first_run()
+        StaticMethods.show_credits()
+        
+        current_version = "1.0.0"  # Specify your current version here
+        StaticMethods.check_version(current_version)
+        
+        print(f"{StaticValues.INFO}Program is now running...{Style.RESET_ALL}")
+        # Your main program logic goes here
+        # For example, calling other functions or interacting with the user
+
+if __name__ == "__main__":
+    start()
