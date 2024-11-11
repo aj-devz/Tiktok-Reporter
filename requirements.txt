@@ -8,5 +8,4 @@ datetime
 fake_useragent
 httpx
 asyncio
-json
 tqdm~=4.66.5
